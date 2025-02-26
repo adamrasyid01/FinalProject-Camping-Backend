@@ -14,5 +14,7 @@ class CampingLocation extends Model
         'image_url',
         'total_camps',
     ];
-    
+    public function campingSites() {
+        return $this->hasMany(CampingSite::class, 'location_id');
+    }
 }

@@ -13,4 +13,11 @@ class Criteria extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function userPreferenceCriterias() {
+        return $this->belongsToMany(UserPreferenceCriteria::class, 'criteria_id');
+    }
+    public function campingSiteScores(){
+        return $this->belongsToMany(CampingSiteScore::class, 'criterion_id');
+    }
 }

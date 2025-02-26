@@ -58,4 +58,16 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function bookmarks(){
+        return $this->belongsToMany(CampingSites::class, 'bookmarks', 'user_id', 'camping_site_id');
+    }
+
+    public function userPreference(){
+        return $this->hasOne(UserPreferences::class, 'user_id');
+    }
+
+    public function ahpResults(){
+        return $this->hasMany(AhpResults::class, 'user_id');
+    }
 }

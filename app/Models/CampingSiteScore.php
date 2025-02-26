@@ -16,4 +16,11 @@ class CampingSiteScore extends Model
         'sentiment_percentage',
         'ahp_score',
     ];
+
+    public function criterias(){
+        return $this->belongsToMany(Criteria::class, 'criterion_id');
+    }
+    public function campingSites(){
+        return $this->belongsToMany(CampingSite::class, 'camping_site_id');
+    }
 }

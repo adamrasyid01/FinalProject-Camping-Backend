@@ -15,4 +15,10 @@ class AhpResult extends Model
         'camping_site_id',
         'final_score',
     ];
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function campingSite(){
+        return $this->belongsTo(CampingSite::class, 'camping_site_id');
+    }
 }

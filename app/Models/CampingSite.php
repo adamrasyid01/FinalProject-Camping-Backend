@@ -17,4 +17,17 @@ class CampingSite extends Model
         'image_url',
         'rating'
     ];
+
+    public function bookmarkedbyUsers() {
+        return $this->belongsToMany(User::class, 'bookmarks', 'camping_site_id', 'user_id');
+    }
+    public function campingLocation() {
+        return $this->belongsTo(CampingLocation::class, 'location_id');
+    }
+    public function campingSiteScores(){
+        return $this->belongsToMany(CampingSiteScore::class, 'camping_site_id');
+    }
+    public function ahpResults(){
+        return $this->hasMany(AhpResult::class, 'camping_site_id');
+    }
 }
