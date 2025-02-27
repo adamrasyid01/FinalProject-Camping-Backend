@@ -60,14 +60,14 @@ class User extends Authenticatable
     ];
 
     public function bookmarks(){
-        return $this->belongsToMany(CampingSites::class, 'bookmarks', 'user_id', 'camping_site_id');
+        return $this->belongsToMany(CampingSite::class, 'bookmarks', 'user_id', 'camping_site_id');
     }
 
     public function userPreference(){
-        return $this->hasOne(UserPreferences::class, 'user_id');
+        return $this->hasOne(UserPreference::class, 'user_id');
     }
 
     public function ahpResults(){
-        return $this->hasMany(AhpResults::class, 'user_id');
+        return $this->hasMany(AhpResult::class, 'user_id');
     }
 }
