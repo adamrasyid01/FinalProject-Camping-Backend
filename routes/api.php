@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,16 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Auth API
 
+Route::name('admin.')->group(function () {
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/register', [UserController::class, 'register']);
+
+    // Protected routes
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', [UserController::class, 'getCurrentUser']);
+        Route::post('/logout', [UserController::class, 'logout']);
+    });
+});
 
