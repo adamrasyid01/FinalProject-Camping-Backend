@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CampingLocationController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,10 @@ Route::name('admin.')->group(function () {
         Route::get('/user', [UserController::class, 'getCurrentUser']);
         Route::post('/logout', [UserController::class, 'logout']);
     });
+});
+
+// CampingLocation API
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/home', [CampingLocationController::class, 'index']);
 });
 

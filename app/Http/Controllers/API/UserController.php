@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -70,12 +71,11 @@ class UserController extends Controller
                 'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
                 'user' => $user
-            ]);
-        } catch (Exception $exception) {
-            return ResponseFormatter::error([
-                'message' => 'Something went wrong',
-                'error' => $exception->getMessage()
-            ], 'Authentication Failed', 500);
+            ], 'User Registered');
+        } catch (ValidationException $exception) {
+            return ResponseFormatter::error($exception->errors(), 422);
+        } catch (\Exception $exception) {
+            return ResponseFormatter::error($exception->getMessage(), 500);
         }
     
     }
