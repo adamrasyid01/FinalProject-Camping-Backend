@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\CampingLocation;
+use App\Models\Criteria;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         CampingLocation::factory()->count(10)->create();
+
+        // Criteria::factory()->count(4)->create();
 
         $this->command->info('Seeder berhasil! 10 data camping locations telah dimasukkan.');
     }

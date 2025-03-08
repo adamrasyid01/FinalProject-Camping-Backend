@@ -15,7 +15,7 @@ class Criteria extends Model
     ];
 
     public function userPreferenceCriterias() {
-        return $this->belongsToMany(UserPreferenceCriteria::class, 'criteria_id');
+        return $this->hasMany(UserPreferenceCriteria::class, 'criteria_id');
     }
     public function campingSiteScores(){
         return $this->belongsToMany(CampingSiteScore::class, 'criterion_id');

@@ -10,10 +10,11 @@ class UserPreferenceCriteria extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function userPreferences() {
-        return $this->belongsToMany(UserPreference::class, 'user_preference_id');
+    protected $fillable = ['user_preference_id', 'criteria_id', 'weight'];
+    public function userPreference() {
+        return $this->belongsTo(UserPreference::class, 'user_preference_id');
     }
-    public function criterias() {
-        return $this->belongsToMany(Criteria::class, 'criteria_id');
+    public function criteria() {
+        return $this->belongsTo(Criteria::class, 'criteria_id');
     }
 }

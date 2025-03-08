@@ -70,4 +70,6 @@ class User extends Authenticatable
     public function ahpResults(){
         return $this->hasMany(AhpResult::class, 'user_id');
     }
+
+   
 }

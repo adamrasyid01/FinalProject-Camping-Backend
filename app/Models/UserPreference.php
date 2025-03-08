@@ -17,6 +17,6 @@ class UserPreference extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
     public function userPreferenceCriterias() {
-        return $this->belongsToMany(UserPreferenceCriteria::class, 'user_preference_id');
+        return $this->hasMany(UserPreferenceCriteria::class, 'user_preference_id');
     }
 }

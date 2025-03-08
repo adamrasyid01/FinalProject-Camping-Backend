@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CampingLocationController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\UserPreferenceCriteriaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +34,10 @@ Route::name('admin.')->group(function () {
 // CampingLocation API
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/home', [CampingLocationController::class, 'index']);
+});
+
+// UserPreferenceCriteria API
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/user-preference-criteria', [UserPreferenceCriteriaController::class, 'saveUserPreferenceCriteria']);
 });
 

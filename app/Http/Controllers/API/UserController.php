@@ -66,6 +66,9 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+              // Buat UserPreference otomatis 
+              $user->userPreference()->create();
+
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return ResponseFormatter::success([
                 'access_token' => $tokenResult,
