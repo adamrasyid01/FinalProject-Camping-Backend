@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\CampingLocation;
+use App\Models\CampingSite;
 use App\Models\Criteria;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +23,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        CampingLocation::factory()->count(10)->create();
+        // CampingLocation::factory()->count(10)->create();
+
+         // Buat 5 lokasi camping
+         CampingLocation::factory()
+         ->count(5)
+         ->has(CampingSite::factory()->count(3), 'campingSites') // Tiap lokasi punya 3 camping sites
+         ->create();
 
         // Criteria::factory()->count(4)->create();
 

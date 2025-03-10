@@ -26,16 +26,17 @@ class UserPreferenceCriteriaController extends Controller
             return ResponseFormatter::error(null, 'User Preference not found', 404);
         }
 
-        // Hapus preferensi lama untuk user ini
-        $user->userPreference->userPreferenceCriterias()->delete();
-
-        // Simpan preferensi baru
+        // Jika user memiliki userPreference, maka update atau create userPreferenceCriterias
         foreach ($request->preference_criteria as $criteria) {
-            UserPreferenceCriteria::create([
-                'user_preference_id' => $user->userPreference->id,
-                'criteria_id' => $criteria['criteria_id'],
-                'weight' => $criteria['weight']
-            ]);
+            UserPreferenceCriteria::updateOrCreate(
+                [
+                    'user_preference_id' => $user->userPreference->id,
+                    'criteria_id' => $criteria['criteria_id'],
+                ],
+                [
+                    'weight' => $criteria['weight']
+                ]
+            );
         }
 
         return ResponseFormatter::success($user->userPreference->userPreferenceCriterias, 'User Preference Criteria Updated');

@@ -2,15 +2,13 @@
 
 namespace App\Helpers;
 
-use Illuminate\Http\JsonResponse;
-
 /**
  * Format response.
  */
 class ResponseFormatter
 {
     /**
-     * Default API Response Structure
+     * API Response
      *
      * @var array
      */
@@ -24,44 +22,25 @@ class ResponseFormatter
     ];
 
     /**
-     * Send a success response.
-     *
-     * @param mixed  $data    The response data
-     * @param string $message The success message
-     * @param int    $code    The HTTP status code (default: 200)
-     * 
-     * @return JsonResponse
+     * Give success response.
      */
-    public static function success($data = null, $message = 'Success', $code = 200): JsonResponse
+    public static function success($data = null, $message = null)
     {
-        self::$response['meta'] = [
-            'code' => $code,
-            'status' => 'success',
-            'message' => $message,
-        ];
+        self::$response['meta']['message'] = $message;
         self::$response['result'] = $data;
 
-        return response()->json(self::$response, $code);
+        return response()->json(self::$response, self::$response['meta']['code']);
     }
 
     /**
-     * Send an error response.
-     *
-     * @param string $message The error message
-     * @param int    $code    The HTTP status code (default: 400)
-     * @param mixed  $errors  Additional error details (optional)
-     * 
-     * @return JsonResponse
+     * Give error response.
      */
-    public static function error($message = 'Error', $code = 400, $errors = null): JsonResponse
+    public static function error($message = null, $code = 400)
     {
-        self::$response['meta'] = [
-            'code' => (int) $code, // Pastikan kode selalu integer
-            'status' => 'error',
-            'message' => $message,
-        ];
-        self::$response['result'] = $errors; // Bisa berisi detail error atau null
+        self::$response['meta']['status'] = 'error';
+        self::$response['meta']['code'] = $code;
+        self::$response['meta']['message'] = $message;
 
-        return response()->json(self::$response, $code);
+        return response()->json(self::$response, self::$response['meta']['code']);
     }
 }

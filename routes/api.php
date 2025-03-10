@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 // Auth API
 
-Route::name('admin.')->group(function () {
-    Route::post('/login', [UserController::class, 'login']);
-    Route::post('/register', [UserController::class, 'register']);
+Route::name('auth.')->group(function () {
+    Route::post('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/register', [UserController::class, 'register'])->name('regoster');
 
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
@@ -39,5 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
 // UserPreferenceCriteria API
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user-preference-criteria', [UserPreferenceCriteriaController::class, 'saveUserPreferenceCriteria']);
+});
+
+// Get CampingSite by ID CampingLocation API
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/camping-locations/{id}/sites', [CampingLocationController::class, 'getLocationWithSites']);
 });
 

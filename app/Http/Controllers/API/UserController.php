@@ -15,43 +15,49 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     //
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         try {
+            // Validasi input
             $request->validate([
                 'email' => 'email|required',
                 'password' => 'required'
             ]);
 
-            
-            $credentials = $request->only('email', 'password');
-            if(!Auth::attempt($credentials)){
-                return ResponseFormatter::error([
-                    'message' => 'Unauthorized'
-                ], 'Authentication Failed', 500);
-            }
-            // Generate Token
+            // Cek apakah email ada di database
             $user = User::where('email', $request->email)->first();
-            if(!Hash::check($request->password, $user->password)){
-                throw new Exception('Invalid Credentials');
+
+            if (!$user) {
+                return ResponseFormatter::error([
+                    'email' => 'Email tidak terdaftar'
+                ], 404);
             }
 
-            // If success, login
-            $access_token = $user->createToken('authToken')->plainTextToken; 
+            // Cek apakah password cocok
+            if (!Hash::check($request->password, $user->password)) {
+                return ResponseFormatter::error([
+                    'password' => 'Password salah'
+                ], 401);
+            }
+
+            // Jika email dan password benar, buat token
+            $access_token = $user->createToken('authToken')->plainTextToken;
+
             return ResponseFormatter::success([
                 'access_token' => $access_token,
                 'token_type' => 'Bearer',
                 'user' => $user
-            ]);
+            ], 'Login berhasil');
         } catch (Exception $exception) {
             return ResponseFormatter::error([
-                'message' => 'Something went wrong',
+                'message' => 'Terjadi kesalahan',
                 'error' => $exception->getMessage()
-            ], 'Authentication Failed', 500);
-
+            ], 500);
         }
-
     }
-    public function register(Request $request){
+
+    public function register(Request $request)
+    {
 
         try {
             $request->validate([
@@ -59,15 +65,15 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|string|confirmed'
             ]);
-    
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
 
-              // Buat UserPreference otomatis 
-              $user->userPreference()->create();
+            // Buat UserPreference otomatis 
+            $user->userPreference()->create();
 
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return ResponseFormatter::success([
@@ -80,15 +86,16 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             return ResponseFormatter::error($exception->getMessage(), 500);
         }
-    
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $token = $request->user()->currentAccessToken()->delete();
         return ResponseFormatter::success($token, 'Token Revoked');
     }
 
-    public function getCurrentUser(Request $request){
+    public function getCurrentUser(Request $request)
+    {
         return ResponseFormatter::success($request->user());
     }
 }
