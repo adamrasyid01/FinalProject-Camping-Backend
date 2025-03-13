@@ -11,16 +11,16 @@ class CampingSiteScore extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'camping_sites_id',
+        'camping_site_id',
         'criterion_id',
         'sentiment_percentage',
         'ahp_score',
     ];
 
     public function criterias(){
-        return $this->belongsToMany(Criteria::class, 'criterion_id');
+        return $this->belongsTo(Criteria::class, 'criterion_id');
     }
     public function campingSites(){
-        return $this->belongsToMany(CampingSite::class, 'camping_site_id');
+        return $this->belongsTo(CampingSite::class, 'camping_site_id');
     }
 }

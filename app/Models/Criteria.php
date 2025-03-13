@@ -18,6 +18,6 @@ class Criteria extends Model
         return $this->hasMany(UserPreferenceCriteria::class, 'criteria_id');
     }
     public function campingSiteScores(){
-        return $this->belongsToMany(CampingSiteScore::class, 'criterion_id');
+        return $this->hasMany(CampingSiteScore::class, 'criterion_id');
     }
 }

@@ -25,7 +25,7 @@ class CampingSite extends Model
         return $this->belongsTo(CampingLocation::class, 'location_id');
     }
     public function campingSiteScores(){
-        return $this->belongsToMany(CampingSiteScore::class, 'camping_site_id');
+        return $this->hasMany(CampingSiteScore::class, 'camping_site_id');
     }
     public function ahpResults(){
         return $this->hasMany(AhpResult::class, 'camping_site_id');

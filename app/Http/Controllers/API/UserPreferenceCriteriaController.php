@@ -41,4 +41,6 @@ class UserPreferenceCriteriaController extends Controller
 
         return ResponseFormatter::success($user->userPreference->userPreferenceCriterias, 'User Preference Criteria Updated');
     }
+
+    // Get api 
 }
