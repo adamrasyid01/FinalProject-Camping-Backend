@@ -26,7 +26,7 @@ class UserPreferenceCriteriaController extends Controller
             return ResponseFormatter::error(null, 'User Preference not found', 404);
         }
 
-        // Jika user memiliki userPreference, maka update atau create userPreferenceCriterias
+        // Update atau create userPreferenceCriterias
         foreach ($request->preference_criteria as $criteria) {
             UserPreferenceCriteria::updateOrCreate(
                 [
@@ -39,8 +39,15 @@ class UserPreferenceCriteriaController extends Controller
             );
         }
 
+
+        // **Panggil Normalisasi setelah input bobot**
+        UserPreferenceCriteria::normalizeWeights($user->userPreference->id);
+
         return ResponseFormatter::success($user->userPreference->userPreferenceCriterias, 'User Preference Criteria Updated');
     }
+
+
+
 
     // Get api 
 }
