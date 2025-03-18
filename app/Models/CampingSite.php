@@ -13,9 +13,12 @@ class CampingSite extends Model
     protected $fillable = [
         'name',
         'location_id',
-        'description',
         'image_url',
-        'rating'
+        'rating',
+        'link',
+        'reviews',
+        'phone',
+        'location'
     ];
 
     public function bookmarkedbyUsers() {

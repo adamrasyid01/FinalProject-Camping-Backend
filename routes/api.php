@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BookmarkController;
 use App\Http\Controllers\API\CampingLocationController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserPreferenceCriteriaController;
@@ -46,3 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/camping-locations/{id}/sites', [CampingLocationController::class, 'getLocationWithSites']);
 });
 
+// Bookmark API
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/bookmarks', [BookmarkController::class, 'index']);
+    Route::post('/bookmarks', [BookmarkController::class, 'store']);
+    Route::delete('/bookmarks/{camping_site_id}', [BookmarkController::class, 'destroy']);
+});
