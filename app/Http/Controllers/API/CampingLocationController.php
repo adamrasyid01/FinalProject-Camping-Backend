@@ -21,9 +21,17 @@ class CampingLocationController extends Controller
             return ResponseFormatter::error('Data lokasi perkemahan gagal diambil', 500, $e->getMessage());
         }
     }
-    public function getLocationWithSites($id)
+    public function getLocationWithSites(Request $request, $id)
     {
-        $location = CampingLocation::with('campingSites')->find($id);
+        // Ambil parameter search, jika tidak ada nilainya kosong
+        $search = $request->query('search', '');
+
+        // Ambil lokasi dengan campingSites yang sesuai ID
+        $location = CampingLocation::with(['campingSites' => function ($query) use ($search) {
+            if (!empty($search)) {
+                $query->where('name', 'LIKE', "%$search%");
+            }
+        }])->find($id);
 
         if (!$location) {
             return ResponseFormatter::error('Location not found', 404);

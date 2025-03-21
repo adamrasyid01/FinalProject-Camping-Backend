@@ -15,11 +15,16 @@ class BookmarkController extends Controller
 
         if (!$user->bookmarks()->where('camping_site_id', $campingSiteId)->exists()) {
             $user->bookmarks()->attach($campingSiteId);
-            return ResponseFormatter::success(null, 'Bookmark added');
+
+            // Ambil data yang baru ditambahkan
+            $bookmark = $user->bookmarks()->where('camping_site_id', $campingSiteId)->first();
+
+            return ResponseFormatter::success($bookmark, 'Bookmark added');
         }
 
         return ResponseFormatter::error(null, 'Bookmark already exists', 409);
-    }   
+    }
+
 
     public function destroy($campingSiteId)
     {

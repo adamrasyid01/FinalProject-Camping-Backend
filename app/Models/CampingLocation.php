@@ -18,13 +18,4 @@ class CampingLocation extends Model
     public function campingSites() {
         return $this->hasMany(CampingSite::class, 'location_id');
     }
-
-    public function getLocationWithSites($id){
-        $location = CampingLocation::with('campingSites')->find($id);
-
-        if(!$location){
-           ResponseFormatter::error('Data lokasi perkemahan tidak ditemukan', 404);
-        }
-        return ResponseFormatter::success($location, 'Data lokasi perkemahan berhasil diambil');
-    }
 }
