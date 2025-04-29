@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\AhpResult;
 use App\Models\UserPreferenceCriteria;
+use App\Services\AhpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,11 +45,11 @@ class UserPreferenceCriteriaController extends Controller
         // **Panggil Normalisasi setelah input bobot**
         UserPreferenceCriteria::normalizeWeights($user->userPreference->id);
 
+        // Panggil AHPController untuk menghitung hasil AHP
+        $ahpResultController = new AhpResultController();
+        $ahpResultController->calculateAHPFinalScore($user->id);
+
         return ResponseFormatter::success($user->userPreference->userPreferenceCriterias, 'User Preference Criteria Updated');
     }
 
-
-
-
-    // Get api 
 }

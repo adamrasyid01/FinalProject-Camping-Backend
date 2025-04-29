@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AhpResultController;
 use App\Http\Controllers\API\BookmarkController;
 use App\Http\Controllers\API\CampingLocationController;
 use App\Http\Controllers\API\UserController;
@@ -52,4 +53,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index']);
     Route::post('/bookmarks', [BookmarkController::class, 'store']);
     Route::delete('/bookmarks/{camping_site_id}', [BookmarkController::class, 'destroy']);
+});
+
+// AhpResult API
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/ahp-results', [AhpResultController::class, 'getAllAHP']);
 });

@@ -31,7 +31,9 @@ class CampingLocationController extends Controller
             if (!empty($search)) {
                 $query->where('name', 'LIKE', "%$search%");
             }
+            $query->orderBy('rating', 'desc'); // <- Tambah ini untuk urutkan rating tertinggi
         }])->find($id);
+        
 
         if (!$location) {
             return ResponseFormatter::error('Location not found', 404);

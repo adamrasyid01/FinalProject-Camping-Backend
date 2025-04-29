@@ -22,6 +22,7 @@ class CampingSiteFactory extends Factory
         return [
             //
             'name' => $this->faker->word . 'Camp',
+            'location' => $this->faker->city . ', Jawa Timur', // ✅ Tambahkan ini
             'location_id' => CampingLocation::factory(),
             'image_url' => $this->faker->imageUrl(), // URL gambar acak
             'rating' => $this->faker->randomFloat(1, 3, 5), // Rating antara 3.0 - 5.0
