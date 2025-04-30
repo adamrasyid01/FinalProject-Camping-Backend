@@ -11,16 +11,23 @@ use Illuminate\Http\Request;
 class CampingLocationController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         try {
-            //code...
-            $locations = CampingLocation::all();
+            $filter = $request->query('filter');
+            // SEPERTI SWITCH CASE
+            $locations = match ($filter) {
+                'nama' => CampingLocation::orderBy('name', 'asc')->get(),
+                'terbanyak' => CampingLocation::orderBy('total_camps', 'desc')->get(),
+                default => CampingLocation::all(),
+            };
+
             return ResponseFormatter::success($locations, 'Data lokasi perkemahan berhasil diambil');
         } catch (Exception $e) {
             return ResponseFormatter::error('Data lokasi perkemahan gagal diambil', 500, $e->getMessage());
         }
     }
+
     public function getLocationWithSites(Request $request, $id)
     {
         // Ambil parameter search, jika tidak ada nilainya kosong
@@ -33,7 +40,7 @@ class CampingLocationController extends Controller
             }
             $query->orderBy('rating', 'desc'); // <- Tambah ini untuk urutkan rating tertinggi
         }])->find($id);
-        
+
 
         if (!$location) {
             return ResponseFormatter::error('Location not found', 404);
