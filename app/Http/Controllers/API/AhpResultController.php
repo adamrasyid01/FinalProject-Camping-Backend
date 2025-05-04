@@ -56,7 +56,7 @@ class AhpResultController extends Controller
         // Ambil query params
         $locationId = $request->query('location_id');
         $minRating = $request->query('min_rating');
-        $dataPerPage = $request->query('data_per_page', 20);
+        $limit = $request->query('limit', 10);
     
         // Query dasar
         $query = AhpResult::with('campingSite')
@@ -78,7 +78,7 @@ class AhpResultController extends Controller
         }
     
         // Eksekusi query dengan menerapkan pagination 
-        $results = $query->paginate($dataPerPage);
+        $results = $query->paginate($limit);
     
         return ResponseFormatter::success($results, 'Filtered AHP results fetched successfully');
     }

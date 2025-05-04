@@ -34,7 +34,7 @@ class ResponseFormatter
             self::$response['meta']['pagination'] = [
                 'current_page' => $data->currentPage(),
                 'last_page' => $data->lastPage(),
-                'per_page' => $data->perPage(),
+                'limit' => $data->perPage(),
                 'total' => $data->total(),
             ];
         } else {
