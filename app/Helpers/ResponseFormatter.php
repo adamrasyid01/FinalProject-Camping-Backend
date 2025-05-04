@@ -27,10 +27,23 @@ class ResponseFormatter
     public static function success($data = null, $message = null)
     {
         self::$response['meta']['message'] = $message;
-        self::$response['result'] = $data;
+
+        // Deteksi jika data adalah paginasi
+        if ($data instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            self::$response['result'] = $data->items(); // hanya ambil item data-nya
+            self::$response['meta']['pagination'] = [
+                'current_page' => $data->currentPage(),
+                'last_page' => $data->lastPage(),
+                'per_page' => $data->perPage(),
+                'total' => $data->total(),
+            ];
+        } else {
+            self::$response['result'] = $data;
+        }
 
         return response()->json(self::$response, self::$response['meta']['code']);
     }
+
 
     /**
      * Give error response.
