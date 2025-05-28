@@ -62,6 +62,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Upload Sentiment Analysis for each Criteria id
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/camping-site-scores/upload-sentiment',[CampingSiteScoreController::class, 'insertCampingSiteScore']);
-});
+Route::post('/camping-site-scores/upload-sentiment',[CampingSiteScoreController::class, 'insertCampingSiteScore']);
