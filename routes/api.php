@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AhpResultController;
 use App\Http\Controllers\API\BookmarkController;
 use App\Http\Controllers\API\CampingLocationController;
+use App\Http\Controllers\API\CampingSiteScoreController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserPreferenceCriteriaController;
 use Illuminate\Http\Request;
@@ -58,4 +59,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // AhpResult API
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/ahp-results', [AhpResultController::class, 'getAllAHP']);
+});
+
+// Upload Sentiment Analysis for each Criteria id
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/camping-site-scores/upload-sentiment',[CampingSiteScoreController::class, 'insertCampingSiteScore']);
 });
