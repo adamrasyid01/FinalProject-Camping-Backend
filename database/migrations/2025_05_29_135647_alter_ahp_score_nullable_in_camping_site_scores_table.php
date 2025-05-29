@@ -12,13 +12,18 @@ return new class extends Migration
     public function up()
     {
         Schema::table('camping_site_scores', function (Blueprint $table) {
-            $table->float('ahp_score')->nullable()->change();
+            // Ubah menjadi integer dan nullable
+            $table->integer('ahp_score')->nullable()->change();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down()
     {
         Schema::table('camping_site_scores', function (Blueprint $table) {
+            // Ubah kembali ke float dan tidak nullable (default sebelumnya)
             $table->float('ahp_score')->nullable(false)->change();
         });
     }
