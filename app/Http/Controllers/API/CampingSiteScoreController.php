@@ -16,21 +16,37 @@ class CampingSiteScoreController extends Controller
 
         try {
             foreach ($data as $item) {
+                $ahpScore = $this->calculateAhpScore($item['sentiment_percentage']);
+
                 CampingSiteScore::create([
                     'camping_site_id' => $item['camping_site_id'],
                     'criterion_id' => $item['criterion_id'],
                     'sentiment_percentage' => $item['sentiment_percentage'],
-                    'ahp_score' => $item['ahp_score'],
+                    'ahp_score' => $ahpScore,
                 ]);
             }
-
-            // Normalisasi skor setelah data disimpan
             $this->calculateNormalizedScores();
             return ResponseFormatter::success(null, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             return ResponseFormatter::error('Gagal menyimpan data: ' . $e->getMessage(), 500);
         }
     }
+
+    private function calculateAhpScore($sentiment)
+    {
+        if ($sentiment >= 80 && $sentiment <= 100) return 10;
+        elseif ($sentiment >= 60) return 9;
+        elseif ($sentiment >= 40) return 8;
+        elseif ($sentiment >= 20) return 7;
+        elseif ($sentiment >= 0) return 6;
+        elseif ($sentiment >= -20) return 5;
+        elseif ($sentiment >= -40) return 4;
+        elseif ($sentiment >= -60) return 3;
+        elseif ($sentiment >= -80) return 2;
+        elseif ($sentiment >= -100) return 1;
+        else return 0;
+    }
+
 
     // Calculate normalized score
     public function calculateNormalizedScores()
