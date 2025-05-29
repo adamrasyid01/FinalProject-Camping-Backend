@@ -20,6 +20,7 @@ class CampingSiteScoreController extends Controller
                     'camping_site_id' => $item['camping_site_id'],
                     'criterion_id' => $item['criterion_id'],
                     'sentiment_percentage' => $item['sentiment_percentage'],
+                    'ahp_score' => $item['ahp_score'],
                 ]);
             }
 
@@ -28,4 +29,6 @@ class CampingSiteScoreController extends Controller
             return ResponseFormatter::error('Gagal menyimpan data: ' . $e->getMessage(), 500);
         }
     }
+
+    // Calculate normalized score
 }
