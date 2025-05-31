@@ -28,50 +28,26 @@ class CampingLocationController extends Controller
         }
     }
 
-    // public function getLocationWithSites(Request $request, $id)
-    // {
-    //     // Ambil parameter search, jika tidak ada nilainya kosong
-    //     $search = $request->query('search', '');
-
-    //     // Ambil lokasi dengan campingSites yang sesuai ID
-    //     $location = CampingLocation::with(['campingSites' => function ($query) use ($search) {
-    //         if (!empty($search)) {
-    //             $query->where('name', 'LIKE', "%$search%");
-    //         }
-    //         $query->orderBy('rating', 'desc'); // <- Tambah ini untuk urutkan rating tertinggi
-    //     }])->find($id);
-
-
-    //     if (!$location) {
-    //         return ResponseFormatter::error('Location not found', 404);
-    //     }
-
-    //     return ResponseFormatter::success($location, 'Location retrieved successfully');
-    // }
-
     public function getLocationWithSites(Request $request, $id)
     {
-        // Ambil parameter
+        // Ambil parameter search, jika tidak ada nilainya kosong
         $search = $request->query('search', '');
-        $limit = $request->query('limit', 10); // default 10 per halaman
+        $limit = $request->query('limit', 10);
 
-        // Cari lokasi
-        $location = CampingLocation::find($id);
+        // Ambil lokasi dengan campingSites yang sesuai ID
+        $location = CampingLocation::with(['campingSites' => function ($query) use ($search) {
+            if (!empty($search)) {
+                $query->where('name', 'LIKE', "%$search%");
+            }
+            $query->orderBy('rating', 'desc'); // <- Tambah ini untuk urutkan rating tertinggi
+        }])->find($id);
+
+
         if (!$location) {
             return ResponseFormatter::error('Location not found', 404);
         }
+        $campingSite = $location->paginate($limit);
 
-        // Query campingSites berdasarkan lokasi dan parameter tambahan
-        $campingSitesQuery = $location->campingSites()
-            ->when(!empty($search), function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%$search%");
-            })
-            ->orderBy('rating', 'desc');
-
-        // Ambil data camping sites dengan pagination
-        $campingSites = $campingSitesQuery->paginate($limit);
-
-        // Tambahkan data lokasi ke dalam respons
-        return ResponseFormatter::success($campingSites, 'Location and paginated camping sites retrieved successfully');
+        return ResponseFormatter::success($campingSite, 'Location retrieved successfully');
     }
 }
