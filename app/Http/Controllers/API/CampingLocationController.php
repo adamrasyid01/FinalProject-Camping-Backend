@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\CampingLocation;
+use App\Models\CampingSite;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -30,24 +31,30 @@ class CampingLocationController extends Controller
 
     public function getLocationWithSites(Request $request, $id)
     {
-        // Ambil parameter search, jika tidak ada nilainya kosong
-        $search = $request->query('search', '');
+        $search = $request->query('search');
         $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
 
-        // Ambil lokasi dengan campingSites yang sesuai ID
-        $location = CampingLocation::with(['campingSites' => function ($query) use ($search) {
-            if (!empty($search)) {
-                $query->where('name', 'LIKE', "%$search%");
-            }
-            $query->orderBy('rating', 'desc'); // <- Tambah ini untuk urutkan rating tertinggi
-        }])->find($id);
-
-
+        // Cek apakah lokasi valid
+        $location = CampingLocation::find($id);
         if (!$location) {
             return ResponseFormatter::error('Location not found', 404);
         }
-        $campingSite = $location->paginate($limit);
 
-        return ResponseFormatter::success($campingSite, 'Location retrieved successfully');
+        // Query camping sites milik lokasi tersebut
+        $query = CampingSite::where('location_id', $id);
+
+        // Filter berdasarkan nama jika ada pencarian
+        if (!empty($search)) {
+            $query->where('name', 'LIKE', "%$search%");
+        }
+
+        // Urutkan berdasarkan rating tertinggi
+        $query->orderBy('rating', 'desc');
+
+        // Ambil data dengan pagination
+        $campingSites = $query->paginate($limit, ['*'], 'page', $page);
+
+        return ResponseFormatter::success($campingSites, 'Filtered camping sites retrieved successfully');
     }
 }
