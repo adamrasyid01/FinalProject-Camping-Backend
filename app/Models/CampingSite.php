@@ -20,17 +20,25 @@ class CampingSite extends Model
         'phone',
         'location'
     ];
+    protected $casts = [
+        'text_reviews' => 'array',
+        'total_sentimen' => 'array',
+    ];
 
-    public function bookmarkedbyUsers() {
+    public function bookmarkedbyUsers()
+    {
         return $this->belongsToMany(User::class, 'bookmarks', 'camping_site_id', 'user_id');
     }
-    public function campingLocation() {
+    public function campingLocation()
+    {
         return $this->belongsTo(CampingLocation::class, 'location_id');
     }
-    public function campingSiteScores(){
+    public function campingSiteScores()
+    {
         return $this->hasMany(CampingSiteScore::class, 'camping_site_id');
     }
-    public function ahpResults(){
+    public function ahpResults()
+    {
         return $this->hasMany(AhpResult::class, 'camping_site_id');
     }
 }

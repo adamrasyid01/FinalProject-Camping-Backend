@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class TestAHPMatrix extends Command
+class CalculateNormalizedScores extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'run:test-ahp-matrix';
+    protected $signature = 'run:calculate-normalized-scores';
 
     /**
      * The console command description.
@@ -25,9 +25,6 @@ class TestAHPMatrix extends Command
      */
     public function handle()
     {
-        $userPreferenceId = 1; // ganti dengan ID yang valid
-        $controller = new \App\Http\Controllers\API\UserPreferenceCriteriaController();
-        $matrix = $controller->buildAHPMatrix($userPreferenceId);
-        // dd($matrix);
+        //
     }
 }

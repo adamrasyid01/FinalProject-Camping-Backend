@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Auth;
 class UserPreferenceCriteriaController extends Controller
 {
     //
+    public function getUserPreferenceCriteria()
+    {
+        $user = Auth::user();
+
+        if (!$user->userPreference) {
+            return ResponseFormatter::error(null, 'User Preference not found', 404);
+        }
+
+        $criteria = $user->userPreference->userPreferenceCriterias;
+
+        return ResponseFormatter::success($criteria, 'User Preference Criteria Retrieved');
+    }
     public function saveUserPreferenceCriteria(Request $request)
     {
         $request->validate([
@@ -68,7 +80,7 @@ class UserPreferenceCriteriaController extends Controller
         }
 
         // Urutkan dari bobot terbesar ke terkecil
-        arsort($priorityMap);
+        // arsort($priorityMap);
         // array:4 [
         // "Kemudahan Transportasi" => 9.0
         // "Kebersihan" => 7.0

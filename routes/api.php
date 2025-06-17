@@ -43,10 +43,17 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user-preference-criteria', [UserPreferenceCriteriaController::class, 'saveUserPreferenceCriteria']);
 });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user-preference-criteria', [UserPreferenceCriteriaController::class, 'getUserPreferenceCriteria']);
+});
 
 // Get CampingSite by ID CampingLocation API
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/camping-locations/{id}/sites', [CampingLocationController::class, 'getLocationWithSites']);
+});
+// Get detail camping site by ID
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/camping-locations/{id}/sites/{camping_site_id}', [CampingLocationController::class, 'getDetailSites']);
 });
 
 // Bookmark API

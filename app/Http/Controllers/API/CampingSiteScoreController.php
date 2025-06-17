@@ -16,16 +16,16 @@ class CampingSiteScoreController extends Controller
 
         try {
             foreach ($data as $item) {
-                $ahpScore = $this->calculateAhpScore($item['sentiment_percentage']);
+                $ahpScore = $this->calculateAhpScore($item['sentiment_value']);
 
                 CampingSiteScore::create([
                     'camping_site_id' => $item['camping_site_id'],
                     'criterion_id' => $item['criterion_id'],
-                    'sentiment_percentage' => $item['sentiment_percentage'],
+                    'sentiment_value' => $item['sentiment_value'],
                     'ahp_score' => $ahpScore,
                 ]);
             }
-            $this->calculateNormalizedScores();
+            CampingSiteScore::normalizeScores();
             return ResponseFormatter::success(null, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             return ResponseFormatter::error('Gagal menyimpan data: ' . $e->getMessage(), 500);

@@ -57,4 +57,17 @@ class CampingLocationController extends Controller
 
         return ResponseFormatter::success($campingSites, 'Filtered camping sites retrieved successfully');
     }
+
+    public function getDetailSites(Request $request, $id, $camping_site_id)
+    {
+        $campingSite = CampingSite::where('id', $camping_site_id)
+            ->where('location_id', $id)
+            ->first();
+
+        if (!$campingSite) {
+            return ResponseFormatter::error('Camping site not found', 404);
+        }
+
+        return ResponseFormatter::success($campingSite, 'Camping site details retrieved successfully');
+    }
 }
