@@ -70,3 +70,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Upload Sentiment Analysis for each Criteria id
 Route::post('/camping-site-scores/upload-sentiment',[CampingSiteScoreController::class, 'insertCampingSiteScore']);
+
+// UPLOAD CAMPING LOCATION (city)
+Route::post('/camping-locations/upload', [CampingLocationController::class, 'insertCampingLocations']);
+
+// Upload Camping site (lokasi camping)
+Route::post('/camping-sites/upload', [CampingLocationController::class, 'insertCampingSites']);
