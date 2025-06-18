@@ -73,6 +73,8 @@ class CampingLocationController extends Controller
         return ResponseFormatter::success($campingSite, 'Camping site details retrieved successfully');
     }
 
+    // INSERT CITY DATA
+
    public function insertCampingLocations(Request $request) // Nama fungsi diubah agar lebih deskriptif
     {
         // Ambil semua data dari request, diharapkan berupa array
@@ -96,7 +98,7 @@ class CampingLocationController extends Controller
                     'id' => 'required|integer',
                     'name' => 'required|string|max:255',
                     'image_url' => 'nullable|string',
-                    'total_camping' => 'required|integer|min:0',
+                    'total_camps' => 'required|integer|min:0',
                 ]);
 
                 // Jika validasi untuk item ini gagal, catat error dan lanjutkan ke item berikutnya
@@ -141,7 +143,8 @@ class CampingLocationController extends Controller
         return ResponseFormatter::success($response, 'Proses import selesai');
     }
 
-     public function insertCampingSites(Request $request)
+    // INSERT CAMPING SITE DATA
+    public function insertCampingSites(Request $request)
     {
         // Ambil semua data dari request, diharapkan formatnya adalah array JSON
         $sites = $request->all();
