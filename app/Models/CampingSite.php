@@ -18,7 +18,9 @@ class CampingSite extends Model
         'link',
         'reviews',
         'phone',
-        'location'
+        'location',
+        'text_reviews',
+        'total_sentimen',
     ];
     protected $casts = [
         'text_reviews' => 'array',

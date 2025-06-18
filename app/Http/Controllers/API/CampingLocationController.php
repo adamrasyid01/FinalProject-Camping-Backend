@@ -175,7 +175,7 @@ class CampingLocationController extends Controller
                     'rating' => 'required|numeric',
                     'image_url' => 'nullable|string',
                     'location' => 'nullable|string',
-                    'text_review' => 'required|array',      // Pastikan ini adalah array
+                    'text_reviews' => 'required|array',      // Pastikan ini adalah array
                     'total_sentimen' => 'required|array',   // Pastikan ini adalah array
                 ]);
 
@@ -205,7 +205,7 @@ class CampingLocationController extends Controller
                         'image_url' => $validatedData['image_url'],
                         'location' => $validatedData['location'],
                         // Encode array menjadi string JSON sebelum disimpan ke DB
-                        'text_reviews' => json_encode($validatedData['text_review']),
+                        'text_reviews' => json_encode($validatedData['text_reviews']),
                         'total_sentimen' => json_encode($validatedData['total_sentimen']),
                     ]
                 );
