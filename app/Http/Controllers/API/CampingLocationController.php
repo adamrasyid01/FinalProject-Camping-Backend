@@ -205,7 +205,7 @@ class CampingLocationController extends Controller
                         'image_url' => $validatedData['image_url'],
                         'location' => $validatedData['location'],
                         // Encode array menjadi string JSON sebelum disimpan ke DB
-                        'text_reviews' => $validatedData['text_review'],
+                        'text_reviews' => $validatedData['text_reviews'],
                         'total_sentimen' => $validatedData['total_sentimen'],
                     ]
                 );
