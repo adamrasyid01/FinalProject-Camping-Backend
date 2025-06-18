@@ -15,7 +15,7 @@ class CampingSiteScore extends Model
     protected $fillable = [
         'camping_site_id',
         'criterion_id',
-        'sentiment_percentage',
+        'sentiment_value',
         'ahp_score',
         'normalized_score',
     ];

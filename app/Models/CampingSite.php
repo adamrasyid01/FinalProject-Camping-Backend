@@ -16,7 +16,7 @@ class CampingSite extends Model
         'image_url',
         'rating',
         'link',
-        'reviews',
+        'total_reviews',
         'phone',
         'location',
         'text_reviews',
