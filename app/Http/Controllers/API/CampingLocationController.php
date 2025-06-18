@@ -75,7 +75,7 @@ class CampingLocationController extends Controller
 
     // INSERT CITY DATA
 
-   public function insertCampingLocations(Request $request) // Nama fungsi diubah agar lebih deskriptif
+    public function insertCampingLocations(Request $request) // Nama fungsi diubah agar lebih deskriptif
     {
         // Ambil semua data dari request, diharapkan berupa array
         $locations = $request->all();
@@ -205,8 +205,8 @@ class CampingLocationController extends Controller
                         'image_url' => $validatedData['image_url'],
                         'location' => $validatedData['location'],
                         // Encode array menjadi string JSON sebelum disimpan ke DB
-                        'text_reviews' => json_encode($validatedData['text_reviews']),
-                        'total_sentimen' => json_encode($validatedData['total_sentimen']),
+                        'text_reviews' => $validatedData['text_review'],
+                        'total_sentimen' => $validatedData['total_sentimen'],
                     ]
                 );
 
