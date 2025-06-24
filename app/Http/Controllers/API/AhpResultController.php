@@ -23,18 +23,25 @@ class AhpResultController extends Controller
 
         $criteriaWeights = UserPreferenceCriteria::where('user_preference_id', $userPreference->id)
             ->pluck('normalized_weight', 'criteria_id');
-
+            // dd($criteriaWeights);
         $scores = CampingSiteScore::all()->groupBy('camping_site_id');
 
         foreach ($scores as $campingSiteId => $siteScores) {
+            
             $finalScore = 0;
 
             foreach ($siteScores as $score) {
+                // dd($score);
                 $criterionId = $score->criterion_id;
+                // dump($criterionId);
                 $normalizedScore = $score->normalized_score;
+                // dump($normalizedScore);
 
                 $weight = $criteriaWeights[$criterionId] ?? 0;
+                // dump($weight);
+              
                 $finalScore += $weight * $normalizedScore;
+                // dump($finalScore);
             }
 
             AhpResult::updateOrCreate(

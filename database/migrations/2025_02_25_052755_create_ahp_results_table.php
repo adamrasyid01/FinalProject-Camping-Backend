@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('camping_site_id')->unsigned();
-            $table->float('final_score');
+            // Ubah menjadi 4 angka di belakang koma
+            $table->decimal('final_score', 10, 4); // Total 10 digit, 4 di antaranya di belakang koma.
             $table->softDeletes();
             $table->timestamps();
         });
