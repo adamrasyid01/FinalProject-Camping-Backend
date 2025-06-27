@@ -272,7 +272,8 @@ class UserPreferenceCriteriaController extends Controller
 
         // Step 8: Hitung CR (Consistency Ratio)
         $CR = $CI / 0.9; // 0.9 adalah nilai
-
+        // dump("Hasil CI: " . $CI);
+        // dump("Hasil CR: " . $CR);
         // dd($CR); // Untuk debug, bisa dihapus setelah selesai
         // Jika CR > 0.1, maka matriks tidak konsisten
         if($CR <= 0.1) {
