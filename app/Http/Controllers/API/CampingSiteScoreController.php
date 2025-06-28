@@ -14,8 +14,6 @@ class CampingSiteScoreController extends Controller
     {
         $data = $request->all();
 
-        // Anda bisa menggunakan transaksi untuk memastikan semua proses berhasil atau semua gagal
-        DB::beginTransaction();
 
         try {
             foreach ($data as $item) {
@@ -23,27 +21,16 @@ class CampingSiteScoreController extends Controller
                 $ahpScore = $this->calculateAhpScore($item['sentiment_value']);
 
                 // Gunakan updateOrCreate untuk menghindari duplikasi data
-                CampingSiteScore::updateOrCreate(
-                    [
-                        // Kondisi untuk mencari data yang sudah ada
-                        'camping_site_id' => $item['camping_site_id'],
-                        'criterion_id' => $item['criterion_id'],
-                    ],
-                    [
-                        // Data yang akan diisi atau diperbarui
-                        'sentiment_value' => $item['sentiment_value'],
-                        'ahp_score' => $ahpScore,
-                    ]
-                );
+                CampingSiteScore::create([
+                    'camping_site_id' => $item['camping_site_id'],
+                    'criterion_id' => $item['criterion_id'],
+                    'sentiment_value' => $item['sentiment_value'],
+                    'ahp_score' => $ahpScore,
+                ]);
             }
 
-            // Panggil fungsi normalisasi setelah semua data dimasukkan/diperbarui
-            $this->calculateNormalizedScores();
-
-            DB::commit(); // Simpan semua perubahan jika tidak ada error
-
-            return ResponseFormatter::success(null, 'Data berhasil disimpan/diperbarui dan dinormalisasi');
-
+            CampingSiteScoreController::calculateNormalizedScores();
+            return ResponseFormatter::success(null, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             DB::rollBack(); // Batalkan semua operasi jika terjadi error
             // Kirim pesan error yang detail (termasuk pesan asli dari Exception)
@@ -55,7 +42,7 @@ class CampingSiteScoreController extends Controller
      * Fungsi private untuk menghitung skor normalisasi.
      * Tidak ada output $this->info() di sini.
      */
-    private function calculateNormalizedScores()
+    public function calculateNormalizedScores()
     {
         $criterionIds = CampingSiteScore::select('criterion_id')->distinct()->pluck('criterion_id');
 
